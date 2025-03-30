@@ -13,6 +13,11 @@
      font-family: 'Gaming';
      src: url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
  }
+
+ a {
+    text-decoration: none;
+    color: white;
+ }
  
  body {
      background-color: var(--background-color);
