@@ -69,7 +69,7 @@ public class SecurityConfig {
                 .contentSecurityPolicy(csp -> csp
                     .policyDirectives(
                         "default-src 'self'; " +
-                        "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                        "script-src 'self'; " +
                         "style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
                         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
                         "img-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://placehold.co; " +
