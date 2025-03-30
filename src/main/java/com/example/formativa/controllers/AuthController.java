@@ -41,7 +41,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(
             @RequestParam("username") String username,
-            @RequestParam("secreto") String password) {
+            @RequestParam("password") String password) {
 
         final UserDetails userDetails = userService.loadUserByUsername(username);
 
