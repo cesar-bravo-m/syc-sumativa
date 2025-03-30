@@ -6,14 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.formativa.backend.JWTAuthenticationConfig;
 import com.example.formativa.services.UserService;
-
 
 @Controller
 public class AuthController {
@@ -27,7 +28,8 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model, CsrfToken csrf) {
+        model.addAttribute("_csrf", csrf);
         return "login";
     }
 
@@ -38,12 +40,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
-            @RequestParam("user") String username,
-            @RequestParam("encryptedPass") String unencryptedPass) {
+            @RequestParam("username") String username,
+            @RequestParam("password") String password) {
 
         final UserDetails userDetails = userService.loadUserByUsername(username);
 
-        if (!passwordEncoder.matches(unencryptedPass, userDetails.getPassword())) {
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new RuntimeException("Invalid login");
         }
 

@@ -140,6 +140,7 @@
         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
         
         <form class="profile-form" th:action="@{/profile/update}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div class="avatar-section">
                 <img th:src="${profile?.avatarUri != null ? profile.avatarUri : 'https://placehold.co/150x150/9D4EDD/ffffff?text=Avatar'}" 
                      alt="Avatar" class="avatar-preview" id="avatarPreview">
