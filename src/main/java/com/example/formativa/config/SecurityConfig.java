@@ -36,10 +36,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        CookieCsrfTokenRepository csrfTokenRepository = new CookieCsrfTokenRepository();
+        csrfTokenRepository.setCookieHttpOnly(true);
+        csrfTokenRepository.setSecure(true);
+        
         http
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/login")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrfTokenRepository(csrfTokenRepository)
             )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.GET, "/", "/home", "/register", "/css/**", "/images/**").permitAll()
@@ -53,6 +57,10 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/", true)
             )
             .logout(logout -> logout.permitAll())
+            .sessionManagement(session -> session
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+            )
             .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers
                 .frameOptions().deny()
