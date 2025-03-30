@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.formativa.backend.JWTAuthenticationConfig;
 import com.example.formativa.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class AuthController {
     @Autowired
@@ -56,5 +58,11 @@ public class AuthController {
         headers.add("Location", "/");
 
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 } 
