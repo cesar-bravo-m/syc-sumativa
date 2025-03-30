@@ -39,6 +39,7 @@ public class SecurityConfig {
         CookieCsrfTokenRepository csrfTokenRepository = new CookieCsrfTokenRepository();
         csrfTokenRepository.setCookieHttpOnly(true);
         csrfTokenRepository.setSecure(true);
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite("Strict"));
         
         http
             .csrf(csrf -> csrf
