@@ -53,7 +53,25 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/", true)
             )
             .logout(logout -> logout.permitAll())
-            .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+            .headers(headers -> headers
+                .frameOptions().deny()
+                .xssProtection().disable()
+                .contentSecurityPolicy(csp -> csp
+                    .policyDirectives(
+                        "default-src 'self'; " +
+                        "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                        "style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+                        "img-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://placehold.co; " +
+                        "connect-src 'self'; " +
+                        "frame-src 'none'; " +
+                        "base-uri 'self'; " +
+                        "form-action 'self'; " +
+                        "frame-ancestors 'none'"
+                    )
+                )
+            );
 
         return http.build();
     }

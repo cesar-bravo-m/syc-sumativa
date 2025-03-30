@@ -38,6 +38,7 @@ public class HomeController {
 
         model.addAttribute("latestEvents", latestEvents);
         model.addAttribute("featuredEvents", featuredEvents);
+
         return "home";
     }
 
